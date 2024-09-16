@@ -25,7 +25,7 @@ public class Trajectory : MonoBehaviour
         
     }
 
-    public void updateDotPos(GameObject throwObj)
+    public void updateThrowDotPos(GameObject throwObj)
     {
         float time = 0.0f;
         foreach (GameObject dot in dots)
@@ -35,6 +35,20 @@ public class Trajectory : MonoBehaviour
             pos.y += time * forcePower/(mass) * dir.y - (gravity * time * time) / 2.0f;
             dot.transform.position = pos;
             time += dotsSpaceing;
+        }
+    }
+
+    public void updatePlatformDotPos(GameObject throwObj, float timerMax)
+    {
+        float dt = timerMax / dots.Count;
+        Debug.Log(dt);
+        Vector3 pos = throwObj.transform.position;
+        foreach (GameObject dot in dots)
+        {
+            dot.transform.position = pos;
+            pos.x += dt * forcePower * dir.x;
+            pos.y += dt * forcePower * dir.y;
+
         }
     }
     void generateDots()

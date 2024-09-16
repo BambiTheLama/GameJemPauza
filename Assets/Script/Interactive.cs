@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum InteractiveType
 {
-    Throw
+    Throw,MovePlatrorm
 }
 
 public struct InteractiveData
@@ -24,21 +24,28 @@ public struct InteractiveData
 }
 public class Interactive : MonoBehaviour
 {
-    public InteractiveData interactiveData;
     public float power = 1.0f;
     public GameObject target;
     public float timer = 1.0f;
+    public InteractiveType type;
     // Start is called before the first frame update
     void Start()
     {
-        interactiveData.power = power;
-        interactiveData.toThrow = target;
-        interactiveData.timer = timer;
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public InteractiveData getData()
+    {
+        InteractiveData id;
+        id.type = type;
+        id.power= power;
+        id.toThrow = target;
+        id.timer = timer;
+        return id;
     }
 }
