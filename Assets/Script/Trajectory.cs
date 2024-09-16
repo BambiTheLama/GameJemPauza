@@ -40,7 +40,7 @@ public class Trajectory : MonoBehaviour
 
     public void updatePlatformDotPos(GameObject throwObj, float timerMax)
     {
-        float dt = timerMax / dots.Count;
+        float dt = timerMax / (dots.Count - 1);
         Debug.Log(dt);
         Vector3 pos = throwObj.transform.position;
         foreach (GameObject dot in dots)
