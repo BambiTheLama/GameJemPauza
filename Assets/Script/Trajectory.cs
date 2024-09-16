@@ -10,6 +10,7 @@ public class Trajectory : MonoBehaviour
     public float dotsSpaceing = 0.02f;
     public GameObject dotPrefab;
     public float gravity = 10.0f;
+    public float mass = 1.0f;
     List<GameObject> dots = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
@@ -30,8 +31,8 @@ public class Trajectory : MonoBehaviour
         foreach (GameObject dot in dots)
         {
             Vector3 pos = throwObj.transform.position;
-            pos.x += time * forcePower * dir.x;
-            pos.y += time * forcePower * dir.y - (gravity * time * time) / 2.0f;
+            pos.x += time * forcePower/(mass) * dir.x;
+            pos.y += time * forcePower/(mass) * dir.y - (gravity * time * time) / 2.0f;
             dot.transform.position = pos;
             time += dotsSpaceing;
         }

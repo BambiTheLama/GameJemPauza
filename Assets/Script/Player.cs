@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
         {
             rigidbody.velocity = Vector2.zero;
             rigidbody.angularVelocity = 0;
-            rigidbody.AddForce(new Vector2(0, 200));
+            rigidbody.AddForce(new Vector2(0, 3), ForceMode2D.Impulse);
             if (canJump)
                 canJump = false;
             else
@@ -57,19 +57,29 @@ public class Player : MonoBehaviour
             freezTime = false;
             trajectory.showDots(false);
         }
-        if(freezTime&&trajectory)
+        if (freezTime && trajectory) 
         {
             GameObject toThrow = interactiveData.toThrow;
+            
             if (toThrow == null)
                 toThrow = gameObject;
             trajectory.dir = getThrowDir();
-            trajectory.forcePower = interactiveData.power;
+            trajectory.forcePower = interactiveData.power/3;
             trajectory.updateDotPos(toThrow);
+            trajectory.mass = getThrowMass();
             trajectory.showDots(true);
 
         }
     }
 
+    float getThrowMass()
+    {
+        if(interactiveData.toThrow)
+        {
+            return interactiveData.toThrow.GetComponent<Rigidbody2D>().mass;
+        }
+        return rigidbody.mass;
+    }
     void ActionAfterFreez()
     {
         if (!freezTime)
@@ -94,7 +104,7 @@ public class Player : MonoBehaviour
                     break;
                 rigidbody.velocity = Vector2.zero;
                 rigidbody.angularVelocity = 0;
-                rigidbody.AddForce(useDir.normalized * interactiveData.power);
+                rigidbody.AddForce(useDir.normalized * interactiveData.power, ForceMode2D.Impulse);
                 break;
 
             default:
@@ -153,7 +163,7 @@ public class Player : MonoBehaviour
         if (!interactive)
             return;
         interactiveData = interactive.interactiveData;
-        transform.position = collision.transform.position;
+        //transform.position = collision.transform.position;
         
         Destroy(collision.gameObject);
         Time.timeScale = 0.0f;

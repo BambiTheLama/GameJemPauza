@@ -49,4 +49,4 @@ MonoBehaviour:
   dotsNumber: 100
   dotsSpaceing: 0.002
   dotPrefab: {fileID: 1129992745340139524, guid: b9cf7162ea0305a46b5f671a73f75b6e, type: 3}
-  gravity: 1
+  gravity: 100

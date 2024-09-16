@@ -281,6 +281,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 497391255942337016, guid: b936d85d79e60064aa9c31f5018ff7cd, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 497391255942337016, guid: b936d85d79e60064aa9c31f5018ff7cd, type: 3}
+      propertyPath: m_AngularDrag
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 497391255942337016, guid: b936d85d79e60064aa9c31f5018ff7cd, type: 3}
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
@@ -288,6 +296,18 @@ PrefabInstance:
       propertyPath: camera
       value: 
       objectReference: {fileID: 311415839}
+    - target: {fileID: 1201499711313201768, guid: b936d85d79e60064aa9c31f5018ff7cd, type: 3}
+      propertyPath: gravity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1201499711313201768, guid: b936d85d79e60064aa9c31f5018ff7cd, type: 3}
+      propertyPath: dotsNumber
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1201499711313201768, guid: b936d85d79e60064aa9c31f5018ff7cd, type: 3}
+      propertyPath: dotsSpaceing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4174258977204754148, guid: b936d85d79e60064aa9c31f5018ff7cd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.469
@@ -560,7 +580,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 2
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
