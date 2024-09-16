@@ -157,10 +157,7 @@ public class Player : MonoBehaviour,ForceBodyI
         Vector2 worldPos = camera.ScreenToWorldPoint(mousePos);
         Collider2D col = Physics2D.OverlapPoint(worldPos);
         if (!col)
-        {
-            Debug.Log("CHUJA TRAFI£EM");
             return null;
-        }
 
         GameObject gm = col.gameObject;
         if (!gm)
