@@ -22,10 +22,12 @@ public struct InteractiveData
 public class Interactive : MonoBehaviour
 {
     public InteractiveData interactiveData;
+    public GameObject target;
     // Start is called before the first frame update
     void Start()
     {
         interactiveData.power = 400;
+        interactiveData.toThrow = target;
     }
 
     // Update is called once per frame

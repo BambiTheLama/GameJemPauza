@@ -11,10 +11,12 @@ public class Player : MonoBehaviour
     InputAction interactDirInput;
     InputAction jumpInput;
     Rigidbody2D rigidbody;
+    Trajectory trajectory;
     public Camera camera;
     public bool canJump = false;
     public bool doubleJump = false;
     public float speed = 5.0f;
+    Vector2 throwDir = Vector2.zero;
     bool freezTime = false;
     InteractiveData interactiveData;
     void Start()
@@ -28,6 +30,7 @@ public class Player : MonoBehaviour
             jumpInput = playerInput.actions.FindAction("Jump");
         }
         rigidbody = GetComponent<Rigidbody2D>();
+        trajectory = GetComponentInChildren<Trajectory>();
         //camera = Camera.main;
     }
 
@@ -52,6 +55,18 @@ public class Player : MonoBehaviour
             ActionAfterFreez();
             Time.timeScale = 1.0f;
             freezTime = false;
+            trajectory.showDots(false);
+        }
+        if(freezTime&&trajectory)
+        {
+            GameObject toThrow = interactiveData.toThrow;
+            if (toThrow == null)
+                toThrow = gameObject;
+            trajectory.dir = getThrowDir();
+            trajectory.forcePower = interactiveData.power;
+            trajectory.updateDotPos(toThrow);
+            trajectory.showDots(true);
+
         }
     }
 
@@ -86,6 +101,28 @@ public class Player : MonoBehaviour
                 break;
         }
     }
+    Vector2 getThrowDir()
+    {
+        Vector3 mousePos = interactDirInput.ReadValue<Vector2>();
+        mousePos.z = camera.nearClipPlane;
+        Vector2 worldPosition = camera.ScreenToWorldPoint(mousePos);
+
+        float power = interactiveData.power;
+        GameObject toThrow = interactiveData.toThrow;
+        if (toThrow == null)
+            toThrow = gameObject;
+
+
+        switch (interactiveData.type)
+        {
+            case InteractiveType.Throw:
+                return (worldPosition - (Vector2)toThrow.transform.position).normalized;
+            default:
+                break;
+        }
+        return Vector2.zero;
+    }
+
     void Move()
     {
         float moveX = 0.0f;
