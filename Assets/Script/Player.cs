@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour,ForceBodyI
 {
     PlayerInput playerInput;
     InputAction moveInput;
@@ -102,9 +102,8 @@ public class Player : MonoBehaviour
                 Rigidbody2D rigidbody = toThrow.GetComponent<Rigidbody2D>();
                 if (!rigidbody)
                     break;
-                rigidbody.velocity = Vector2.zero;
-                rigidbody.angularVelocity = 0;
-                rigidbody.AddForce(useDir.normalized * interactiveData.power, ForceMode2D.Impulse);
+                ForceBodyI fbi = toThrow.GetComponent<ForceBodyI>();
+                fbi.addForce(useDir.normalized, power,interactiveData.timer);
                 break;
 
             default:
@@ -168,5 +167,12 @@ public class Player : MonoBehaviour
         Destroy(collision.gameObject);
         Time.timeScale = 0.0f;
         freezTime = true;
+    }
+
+    public void addForce(Vector2 dir, float power, float timer)
+    {
+        rigidbody.velocity = Vector2.zero;
+        rigidbody.angularVelocity = 0;
+        rigidbody.AddForce(dir * power, ForceMode2D.Impulse);
     }
 }
