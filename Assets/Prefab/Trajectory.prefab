@@ -46,7 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forcePower: 100
   dir: {x: 0, y: 0}
-  dotsNumber: 100
-  dotsSpaceing: 0.002
+  dotsNumber: 10
+  dotsSpacing: 0.2
   dotPrefab: {fileID: 1129992745340139524, guid: b9cf7162ea0305a46b5f671a73f75b6e, type: 3}
-  gravity: 100
+  gravity: 1
+  mass: 1

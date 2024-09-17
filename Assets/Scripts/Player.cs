@@ -9,7 +9,10 @@ public class Player : MonoBehaviour
     Rigidbody2D rigidBody = null;
     Trajectory trajectory = null;
     Camera mainCamera;
-
+    Animator animator= null;
+    SpriteRenderer spriteRenderer = null;
+    public WallJumpTrigger leftWallTrigger = null;
+    public WallJumpTrigger rightWallTrigger = null;
 
     InputAction moveInput;
     InputAction interactInput;
@@ -33,6 +36,8 @@ public class Player : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
         trajectory = GetComponentInChildren<Trajectory>();
         mainCamera = Camera.main;
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     void Start()
@@ -66,12 +71,35 @@ public class Player : MonoBehaviour
         float moveX = 0.0f;
         if (moveInput != null)
             moveX = moveInput.ReadValue<float>();
-        transform.position += new Vector3(moveX * speed * Time.deltaTime, 0, 0);
+        if (moveX != 0.0f) 
+        {
+            spriteRenderer.flipX = moveX <= 0.0f;
+
+            transform.position += new Vector3(moveX * speed * Time.deltaTime, 0, 0);
+            animator.SetBool("Move", true);
+        }
+        else
+        {
+            animator.SetBool("Move", false);
+        }
+
     }
 
     void HandleJump()
     {
-        if ((canJump || doubleJump) && jumpInput.WasPressedThisFrame())
+        if (!jumpInput.WasPressedThisFrame())
+            return;
+        if (leftWallTrigger.stickToTheWall && canJump) 
+        {
+            rigidBody.AddForce(new Vector2(1, 1).normalized * jumpForce, ForceMode2D.Impulse);
+            canJump = false;
+        }
+        else if (rightWallTrigger.stickToTheWall && canJump)
+        {
+            rigidBody.AddForce(new Vector2(-1, 1).normalized * jumpForce, ForceMode2D.Impulse);
+            canJump = false;
+        }
+        else if (canJump || doubleJump)
         {
             rigidBody.velocity = Vector2.zero;
             rigidBody.angularVelocity = 0;
@@ -80,7 +108,10 @@ public class Player : MonoBehaviour
                 canJump = false;
             else
                 doubleJump = false;
+            animator.SetBool("Jump", true);
         }
+        else
+            animator.SetBool("Jump", false);
     }
 
     void HandleInteractInput()
@@ -259,4 +290,9 @@ public class Player : MonoBehaviour
         freezeTime = true;
     }
 
+    public void resetJump()
+    {
+        canJump = true;
+        doubleJump = true;
+    }
 }
