@@ -1,0 +1,41 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public interface DieTriggerI
+{
+    public void OnDie();
+}
+
+public class Hitable : MonoBehaviour
+{
+    public float hp = 1.0f;
+    float invicibleFrames=0.0f;
+    Rigidbody2D rb;
+    DieTriggerI dieTriggerI;
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        dieTriggerI = GetComponent<DieTriggerI>();
+    }
+    private void Update()
+    {
+        invicibleFrames -= Time.deltaTime;
+    }
+    public void DealDamage(float invicibleFrames,float damage,Vector2 dir,float knobackPower)
+    {
+        if (this.invicibleFrames > 0.0f)
+            return;
+        this.invicibleFrames = invicibleFrames;
+        hp -= damage;
+        if (hp < 0.0f && dieTriggerI != null)
+            dieTriggerI.OnDie();
+        if (rb)
+        {
+            rb.velocity = Vector2.zero;
+            rb.angularVelocity = 0;
+            rb.AddForce(dir * knobackPower, ForceMode2D.Impulse);
+        }
+        
+    }
+}
