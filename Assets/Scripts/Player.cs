@@ -105,13 +105,19 @@ public class Player : MonoBehaviour
             rigidBody.angularVelocity = 0;
             rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             if (canJump)
+            {
                 canJump = false;
+                animator.SetBool("Jump", true);
+            }
             else
+            {
                 doubleJump = false;
-            animator.SetBool("Jump", true);
+                animator.SetBool("DoubleJump", true);
+            }
+
+
         }
-        else
-            animator.SetBool("Jump", false);
+
     }
 
     void HandleInteractInput()
@@ -267,6 +273,8 @@ public class Player : MonoBehaviour
         {
             canJump = true;
             doubleJump = true;
+            animator.SetBool("Jump", false);
+            animator.SetBool("DoubleJump", false);
         }
     }
     private void OnCollisionExit(Collision collision)
