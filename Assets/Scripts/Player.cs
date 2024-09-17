@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour, ForceBodyI
+public class Player : MonoBehaviour
 {
     PlayerInput playerInput;
     Rigidbody2D rigidBody = null;
@@ -164,16 +164,14 @@ public class Player : MonoBehaviour, ForceBodyI
         switch (interactiveData.type)
         {
             case InteractiveType.Throw:
-                ForceBodyI fbi = toThrow.GetComponent<ForceBodyI>();
-                if (fbi == null)
-                    return;
-                fbi.AddForceI(useDir.normalized, power, interactiveData.timer);
+                ThrowBody tb = toThrow.GetComponent<ThrowBody>();
+                if (tb)
+                    tb.Throw(useDir.normalized, power, interactiveData.timer);
                 break;
             case InteractiveType.MovePlatform:
-                PlatformI pi = toThrow.GetComponent<PlatformI>();
-                if (pi == null)
-                    return;
-                pi.MoveTo(useDir.normalized, power, interactiveData.timer);
+                MovingPlatform mp = toThrow.GetComponent<MovingPlatform>();
+                if (mp)
+                    mp.Move(useDir.normalized, power, interactiveData.timer);
                 break;
             default:
                 break;
@@ -214,14 +212,14 @@ public class Player : MonoBehaviour, ForceBodyI
         switch (interactiveData.type)
         {
             case InteractiveType.Throw:
-                ForceBodyI fbi = gm.GetComponent<ForceBodyI>();
-                if (fbi != null)
-                    return gm;
+                ThrowBody tb = gm.GetComponent<ThrowBody>();
+                if (tb)
+                    return tb.gameObject;
                 break;
             case InteractiveType.MovePlatform:
-                PlatformI pi = gm.GetComponent<PlatformI>();
-                if (pi != null)
-                    return gm;
+                MovingPlatform mp = gm.GetComponent<MovingPlatform>();
+                if (mp)
+                    return mp.gameObject;
                 break;
 
         }
@@ -261,10 +259,4 @@ public class Player : MonoBehaviour, ForceBodyI
         freezeTime = true;
     }
 
-    public void AddForceI(Vector2 dir, float power, float timer)
-    {
-        rigidBody.velocity = Vector2.zero;
-        rigidBody.angularVelocity = 0;
-        rigidBody.AddForce(dir * power, ForceMode2D.Impulse);
-    }
 }
