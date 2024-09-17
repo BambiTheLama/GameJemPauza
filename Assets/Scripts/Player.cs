@@ -282,10 +282,12 @@ public class Player : MonoBehaviour
         Interactive interactive = collision.gameObject.GetComponent<Interactive>();
         if (!interactive)
             return;
+        if (!interactive.CanInteract())
+            return;
         interactiveData = interactive.GetData();
+        interactive.Interact();
         //transform.position = collision.transform.position;
-        
-        Destroy(collision.gameObject);
+       
         Time.timeScale = 0.0f;
         freezeTime = true;
     }
