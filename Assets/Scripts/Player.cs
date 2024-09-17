@@ -3,26 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour,ForceBodyI
+public class Player : MonoBehaviour, ForceBodyI
 {
     PlayerInput playerInput;
+    Rigidbody2D rigidBody = null;
+    Trajectory trajectory = null;
+    Camera mainCamera;
+
+
     InputAction moveInput;
     InputAction interactInput;
     InputAction acceptInput;
     InputAction interactDirInput;
     InputAction jumpInput;
-    Rigidbody2D rigidbody;
-    Trajectory trajectory;
-    public Camera camera;
+
     public bool canJump = false;
     public bool doubleJump = false;
     public float speed = 5.0f;
+    public float jumpForce = 3.0f;
+
     Vector2 throwDir = Vector2.zero;
-    bool freezTime = false;
+    bool freezeTime = false;
     InteractiveData interactiveData;
-    void Start()
+
+
+    void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+        rigidBody = GetComponent<Rigidbody2D>();
+        trajectory = GetComponentInChildren<Trajectory>();
+        mainCamera = Camera.main;
+    }
+
+    void Start()
+    {
         if (playerInput)
         {
             moveInput = playerInput.actions.FindAction("Move");
@@ -31,83 +45,115 @@ public class Player : MonoBehaviour,ForceBodyI
             interactDirInput = playerInput.actions.FindAction("InteractDir");
             jumpInput = playerInput.actions.FindAction("Jump");
         }
-        rigidbody = GetComponent<Rigidbody2D>();
-        trajectory = GetComponentInChildren<Trajectory>();
-        //camera = Camera.main;
+
     }
 
-    // Update is called once per frame
     void Update()
     {
         Move();
+        HandleJump();
+        HandleInteractInput();
+        HandleAcceptInput();
+
+        if (freezeTime && trajectory)
+        {
+            HandleFreezeTime();
+        }
+    }
+
+    private void Move()
+    {
+        float moveX = 0.0f;
+        if (moveInput != null)
+            moveX = moveInput.ReadValue<float>();
+        transform.position += new Vector3(moveX * speed * Time.deltaTime, 0, 0);
+    }
+
+    void HandleJump()
+    {
         if ((canJump || doubleJump) && jumpInput.WasPressedThisFrame())
         {
-            rigidbody.velocity = Vector2.zero;
-            rigidbody.angularVelocity = 0;
-            rigidbody.AddForce(new Vector2(0, 3), ForceMode2D.Impulse);
+            rigidBody.velocity = Vector2.zero;
+            rigidBody.angularVelocity = 0;
+            rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             if (canJump)
                 canJump = false;
             else
                 doubleJump = false;
-
-
         }
+    }
+
+    void HandleInteractInput()
+    {
         if (interactInput.WasPressedThisFrame())
         {
-            GameObject gm = getPressObject();
+            GameObject gm = GetPressObject();
             if (gm)
                 interactiveData.toThrow = gm;
         }
+    }
+
+    void HandleAcceptInput()
+    {
         if (acceptInput.WasPressedThisFrame())
         {
-            ActionAfterFreez();
-            Time.timeScale = 1.0f;
-            freezTime = false;
-            trajectory.showDots(false);
-        }
-        if (freezTime && trajectory) 
-        {
-            GameObject toThrow = interactiveData.toThrow;
-            
-            if (toThrow == null)
-                toThrow = gameObject;
-            trajectory.dir = getThrowDir();
-
-            switch (interactiveData.type)
-            {
-                case InteractiveType.Throw:
-                    trajectory.forcePower = interactiveData.power / 3;
-                    trajectory.updateThrowDotPos(toThrow);
-                    break;
-                case InteractiveType.MovePlatrorm:
-                    trajectory.forcePower = interactiveData.power;
-                    trajectory.updatePlatformDotPos(toThrow, interactiveData.timer);
-                    break;
-
-            }
-
-            trajectory.mass = getThrowMass();
-            trajectory.showDots(true);
-
+            ActionAfterFreeze();
+            UnfreezeTime();
         }
     }
 
-    float getThrowMass()
+    void UnfreezeTime()
     {
-        if(interactiveData.toThrow)
+        Time.timeScale = 1.0f;
+        freezeTime = false;
+        trajectory.ShowDots(false);
+    }
+
+    void HandleFreezeTime()
+    {
+        GameObject toThrow = GetObjectToThrow();
+        Vector2 throwDir = GetThrowDir();
+
+        SetTrajectory(toThrow, throwDir);
+        trajectory.ShowDots(true);
+    }
+
+    GameObject GetObjectToThrow()
+    {
+        return interactiveData.toThrow != null ? interactiveData.toThrow : gameObject;
+    }
+    void SetTrajectory(GameObject toThrow, Vector2 direction)
+    {
+        trajectory.dir = direction;
+        trajectory.forcePower = interactiveData.power / GetPowerDivider(interactiveData.type);
+        trajectory.mass = GetThrowMass();
+
+        if (interactiveData.type == InteractiveType.Throw)
+        {
+            trajectory.UpdateThrowDotPos(toThrow);
+        }
+        else if (interactiveData.type == InteractiveType.MovePlatform)
+        {
+            trajectory.UpdatePlatformDotPos(toThrow, interactiveData.timer);
+        }
+    }
+
+    float GetThrowMass()
+    {
+        if (interactiveData.toThrow)
         {
             return interactiveData.toThrow.GetComponent<Rigidbody2D>().mass;
         }
-        return rigidbody.mass;
+        return rigidBody.mass;
     }
-    void ActionAfterFreez()
+    void ActionAfterFreeze()
     {
-        if (!freezTime)
+        if (!freezeTime)
             return;
 
         Vector3 mousePos = interactDirInput.ReadValue<Vector2>();
-        mousePos.z = camera.nearClipPlane;
-        Vector2 worldPosition = camera.ScreenToWorldPoint(mousePos);
+        mousePos.z = mainCamera.nearClipPlane;
+        Vector2 worldPosition = mainCamera.ScreenToWorldPoint(mousePos);
 
         float power = interactiveData.power;
         GameObject toThrow = interactiveData.toThrow;
@@ -121,25 +167,24 @@ public class Player : MonoBehaviour,ForceBodyI
                 ForceBodyI fbi = toThrow.GetComponent<ForceBodyI>();
                 if (fbi == null)
                     return;
-                fbi.addForce(useDir.normalized, power,interactiveData.timer);
+                fbi.AddForceI(useDir.normalized, power, interactiveData.timer);
                 break;
-            case InteractiveType.MovePlatrorm:
+            case InteractiveType.MovePlatform:
                 PlatformI pi = toThrow.GetComponent<PlatformI>();
                 if (pi == null)
                     return;
-                pi.moveTo(useDir.normalized, power,interactiveData.timer);
+                pi.MoveTo(useDir.normalized, power, interactiveData.timer);
                 break;
             default:
                 break;
         }
     }
-    Vector2 getThrowDir()
+    Vector2 GetThrowDir()
     {
         Vector3 mousePos = interactDirInput.ReadValue<Vector2>();
-        mousePos.z = camera.nearClipPlane;
-        Vector2 worldPosition = camera.ScreenToWorldPoint(mousePos);
-
-        float power = interactiveData.power;
+        mousePos.z = mainCamera.nearClipPlane;
+        Vector2 worldPosition = mainCamera.ScreenToWorldPoint(mousePos);
+        _ = interactiveData.power;
         GameObject toThrow = interactiveData.toThrow;
         if (toThrow == null)
             toThrow = gameObject;
@@ -148,17 +193,17 @@ public class Player : MonoBehaviour,ForceBodyI
         switch (interactiveData.type)
         {
             case InteractiveType.Throw:
-            case InteractiveType.MovePlatrorm:
+            case InteractiveType.MovePlatform:
                 return (worldPosition - (Vector2)toThrow.transform.position).normalized;
             default:
                 break;
         }
         return Vector2.zero;
     }
-    GameObject getPressObject()
+    GameObject GetPressObject()
     {
         Vector3 mousePos = interactDirInput.ReadValue<Vector2>();
-        Vector2 worldPos = camera.ScreenToWorldPoint(mousePos);
+        Vector2 worldPos = mainCamera.ScreenToWorldPoint(mousePos);
         Collider2D col = Physics2D.OverlapPoint(worldPos);
         if (!col)
             return null;
@@ -173,28 +218,23 @@ public class Player : MonoBehaviour,ForceBodyI
                 if (fbi != null)
                     return gm;
                 break;
-            case InteractiveType.MovePlatrorm:
+            case InteractiveType.MovePlatform:
                 PlatformI pi = gm.GetComponent<PlatformI>();
                 if (pi != null)
                     return gm;
                 break;
 
         }
-
         return null;
-
     }
-    void Move()
+
+    float GetPowerDivider(InteractiveType type)
     {
-        float moveX = 0.0f;
-        if (moveInput != null)
-            moveX = moveInput.ReadValue<float>();
-        transform.position += new Vector3(moveX * speed * Time.deltaTime, 0, 0);
+        return type == InteractiveType.Throw ? 3f : 1f;
     }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Floor")
+        if (collision.gameObject.CompareTag("Floor"))
         {
             canJump = true;
             doubleJump = true;
@@ -202,7 +242,7 @@ public class Player : MonoBehaviour,ForceBodyI
     }
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag == "Floor")
+        if (collision.gameObject.CompareTag("Floor"))
         {
             canJump = false;
 
@@ -213,18 +253,18 @@ public class Player : MonoBehaviour,ForceBodyI
         Interactive interactive = collision.gameObject.GetComponent<Interactive>();
         if (!interactive)
             return;
-        interactiveData = interactive.getData();
+        interactiveData = interactive.GetData();
         //transform.position = collision.transform.position;
         
         Destroy(collision.gameObject);
         Time.timeScale = 0.0f;
-        freezTime = true;
+        freezeTime = true;
     }
 
-    public void addForce(Vector2 dir, float power, float timer)
+    public void AddForceI(Vector2 dir, float power, float timer)
     {
-        rigidbody.velocity = Vector2.zero;
-        rigidbody.angularVelocity = 0;
-        rigidbody.AddForce(dir * power, ForceMode2D.Impulse);
+        rigidBody.velocity = Vector2.zero;
+        rigidBody.angularVelocity = 0;
+        rigidBody.AddForce(dir * power, ForceMode2D.Impulse);
     }
 }
