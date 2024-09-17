@@ -119,10 +119,14 @@ public class Player : MonoBehaviour,ForceBodyI
         {
             case InteractiveType.Throw:
                 ForceBodyI fbi = toThrow.GetComponent<ForceBodyI>();
+                if (fbi == null)
+                    return;
                 fbi.addForce(useDir.normalized, power,interactiveData.timer);
                 break;
             case InteractiveType.MovePlatrorm:
                 PlatformI pi = toThrow.GetComponent<PlatformI>();
+                if (pi == null)
+                    return;
                 pi.moveTo(useDir.normalized, power,interactiveData.timer);
                 break;
             default:
@@ -158,13 +162,25 @@ public class Player : MonoBehaviour,ForceBodyI
         Collider2D col = Physics2D.OverlapPoint(worldPos);
         if (!col)
             return null;
-
         GameObject gm = col.gameObject;
         if (!gm)
             return null;
-        ForceBodyI fbi= gm.GetComponent<ForceBodyI>();
-        if (fbi!=null)
-            return gm;
+
+        switch (interactiveData.type)
+        {
+            case InteractiveType.Throw:
+                ForceBodyI fbi = gm.GetComponent<ForceBodyI>();
+                if (fbi != null)
+                    return gm;
+                break;
+            case InteractiveType.MovePlatrorm:
+                PlatformI pi = gm.GetComponent<PlatformI>();
+                if (pi != null)
+                    return gm;
+                break;
+
+        }
+
         return null;
 
     }
