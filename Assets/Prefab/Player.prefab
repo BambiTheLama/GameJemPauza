@@ -92,7 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canJump: 1
   canDoubleJump: 1
-  jumpForce: 3
+  jumpForce: 5
 --- !u!1 &2039504248633834173
 GameObject:
   m_ObjectHideFlags: 0
@@ -407,7 +407,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftWallTrigger: {fileID: 8922107227375504687}
   rightWallTrigger: {fileID: 3880804444130058601}
-  speed: 3
+  speed: 5
 --- !u!95 &522285662209733042
 Animator:
   serializedVersion: 5
@@ -500,7 +500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be7f9fbd1c42c1f42b96076c61561fc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 1
+  hp: 10
 --- !u!114 &6330621900258467291
 MonoBehaviour:
   m_ObjectHideFlags: 0
