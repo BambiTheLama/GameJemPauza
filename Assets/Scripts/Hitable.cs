@@ -29,12 +29,13 @@ public class Hitable : MonoBehaviour
             return;
         this.invicibleFrames = invicibleFrames;
         hp -= damage;
-        if (hp < 0.0f && dieTriggerI != null)
+        if (hp <= 0.0f && dieTriggerI != null)
             dieTriggerI.OnDie();
         if (rb)
         {
             rb.velocity = Vector2.zero;
             rb.angularVelocity = 0;
+            Debug.Log(dir);
             rb.AddForce(dir * knockbackPower, ForceMode2D.Impulse);
         }
         
