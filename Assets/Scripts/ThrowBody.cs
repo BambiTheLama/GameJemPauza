@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ThrowBody : MonoBehaviour
 {
-    // Start is called before the first frame update
     MovingPlatform movingPlatform;
     Rigidbody2D rigidBody;
     public float timer = 1.0f;
@@ -15,12 +14,7 @@ public class ThrowBody : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
         movingPlatform = GetComponent<MovingPlatform>();
     }
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (!staticBody)

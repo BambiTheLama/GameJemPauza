@@ -10,14 +10,12 @@ public class MovingPlatform : MonoBehaviour
     public Vector2 dir= Vector2.zero;
     public float speed = 1.0f;
     public bool isMoving = false;
+
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
     }
-    void Start()
-    {
-        
-    }
+
     void Update()
     {
         if (!isMoving)

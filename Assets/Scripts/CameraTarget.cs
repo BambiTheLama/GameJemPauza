@@ -4,21 +4,20 @@ using UnityEngine;
 
 public class CameraTarget : MonoBehaviour
 {
-    // Start is called before the first frame update
-    Camera camera;
-    void Start()
+    Camera mainCamera;
+
+    void Awake()
     {
-        camera = Camera.main;
+        mainCamera = Camera.main;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (!camera) 
+        if (!mainCamera) 
             return;
         Vector3 pos = transform.position;
-        pos.z = camera.transform.position.z;
-        camera.transform.position = pos;
+        pos.z = mainCamera.transform.position.z;
+        mainCamera.transform.position = pos;
     }
 
 }

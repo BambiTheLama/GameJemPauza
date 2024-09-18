@@ -11,8 +11,8 @@ public class Player : MonoBehaviour
     Camera mainCamera;
     Animator animator= null;
     SpriteRenderer spriteRenderer = null;
-    public WallJumpTrigger leftWallTrigger = null;
-    public WallJumpTrigger rightWallTrigger = null;
+    public WallJumpTrigger leftWallTrigger;
+    public WallJumpTrigger rightWallTrigger;
 
     InputAction moveInput;
     InputAction interactInput;
@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
 
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Move();
         HandleJump();

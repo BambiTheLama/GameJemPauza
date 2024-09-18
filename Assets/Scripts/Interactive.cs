@@ -34,6 +34,7 @@ public class Interactive : MonoBehaviour
     float endTimer = 0.4f;
     float maxEndTimer = 0.4f;
     float scale = 1.0f;
+
     private void Update()
     {
         if (!used)

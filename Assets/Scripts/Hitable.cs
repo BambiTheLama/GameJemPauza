@@ -13,6 +13,7 @@ public class Hitable : MonoBehaviour
     float invicibleFrames=0.0f;
     Rigidbody2D rb;
     DieTriggerI dieTriggerI;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -22,7 +23,7 @@ public class Hitable : MonoBehaviour
     {
         invicibleFrames -= Time.deltaTime;
     }
-    public void DealDamage(float invicibleFrames,float damage,Vector2 dir,float knobackPower)
+    public void DealDamage(float invicibleFrames,float damage,Vector2 dir,float knockbackPower)
     {
         if (this.invicibleFrames > 0.0f)
             return;
@@ -34,7 +35,7 @@ public class Hitable : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
             rb.angularVelocity = 0;
-            rb.AddForce(dir * knobackPower, ForceMode2D.Impulse);
+            rb.AddForce(dir * knockbackPower, ForceMode2D.Impulse);
         }
         
     }
