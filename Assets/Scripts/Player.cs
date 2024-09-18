@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
 
     }
 
-    void FixedUpdate()
+    void Update()
     {
         Move();
         HandleJump();
