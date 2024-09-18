@@ -12,13 +12,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpikesBox
       objectReference: {fileID: 0}
+    - target: {fileID: 4274209090404920448, guid: 86d6e35e9b3f57b48abe441559fea3ae, type: 3}
+      propertyPath: staticBody
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5232093552998393714, guid: 86d6e35e9b3f57b48abe441559fea3ae, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2.295032
       objectReference: {fileID: 0}
     - target: {fileID: 5232093552998393714, guid: 86d6e35e9b3f57b48abe441559fea3ae, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.59641075
       objectReference: {fileID: 0}
     - target: {fileID: 5232093552998393714, guid: 86d6e35e9b3f57b48abe441559fea3ae, type: 3}
       propertyPath: m_LocalPosition.z

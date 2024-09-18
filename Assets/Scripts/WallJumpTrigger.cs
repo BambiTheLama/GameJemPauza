@@ -21,7 +21,7 @@ public class WallJumpTrigger : MonoBehaviour
             rigidBody.velocity = Vector2.zero;
             rigidBody.angularVelocity = 0;
             rigidBody.gravityScale = 0.0f;
-            player.resetJump();
+            //player.resetJump();
         }
 
     }

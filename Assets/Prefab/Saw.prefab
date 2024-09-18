@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 1
-  staticBody: 0
+  staticBody: 1
 --- !u!114 &5634884563551354169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,4 +218,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   invicibleFrame: 1
-  knoback: 1
+  knoback: 10

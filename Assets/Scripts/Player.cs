@@ -20,11 +20,8 @@ public class Player : MonoBehaviour
     InputAction interactDirInput;
     InputAction jumpInput;
 
-    public bool canJump = false;
-    public bool doubleJump = false;
     public float speed = 5.0f;
-    public float jumpForce = 3.0f;
-
+    JumpComponet jumpComponet;
     Vector2 throwDir = Vector2.zero;
     bool freezeTime = false;
     InteractiveData interactiveData;
@@ -38,6 +35,7 @@ public class Player : MonoBehaviour
         mainCamera = Camera.main;
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        jumpComponet = GetComponentInChildren<JumpComponet>();
     }
 
     void Start()
@@ -89,35 +87,10 @@ public class Player : MonoBehaviour
     {
         if (!jumpInput.WasPressedThisFrame())
             return;
-        if (leftWallTrigger.stickToTheWall && canJump) 
-        {
-            rigidBody.AddForce(new Vector2(1, 1).normalized * jumpForce, ForceMode2D.Impulse);
-            canJump = false;
-        }
-        else if (rightWallTrigger.stickToTheWall && canJump)
-        {
-            rigidBody.AddForce(new Vector2(-1, 1).normalized * jumpForce, ForceMode2D.Impulse);
-            canJump = false;
-        }
-        else if (canJump || doubleJump)
-        {
-            rigidBody.velocity = Vector2.zero;
-            rigidBody.angularVelocity = 0;
-            rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            if (canJump)
-            {
-                canJump = false;
-                animator.SetBool("Jump", true);
-            }
-            else
-            {
-                doubleJump = false;
-                animator.SetBool("DoubleJump", true);
-            }
-
-
-        }
-
+        if (!jumpComponet)
+            return;
+        animator.SetBool(jumpComponet.GetJumpType(), true);
+        jumpComponet.Jump();
     }
 
     void HandleInteractInput()
@@ -271,18 +244,8 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Floor"))
         {
-            canJump = true;
-            doubleJump = true;
             animator.SetBool("Jump", false);
             animator.SetBool("DoubleJump", false);
-        }
-    }
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Floor"))
-        {
-            canJump = false;
-
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -300,9 +263,4 @@ public class Player : MonoBehaviour
         freezeTime = true;
     }
 
-    public void resetJump()
-    {
-        canJump = true;
-        doubleJump = true;
-    }
 }
