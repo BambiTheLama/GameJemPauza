@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     InputAction jumpInput;
 
     public float speed = 5.0f;
-    JumpComponet jumpComponet;
+    JumpComponent jumpComponet;
     Vector2 throwDir = Vector2.zero;
     bool freezeTime = false;
     InteractiveData interactiveData;
@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
         mainCamera = Camera.main;
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        jumpComponet = GetComponentInChildren<JumpComponet>();
+        jumpComponet = GetComponentInChildren<JumpComponent>();
     }
 
     void Start()

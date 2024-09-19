@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JumpComponet : MonoBehaviour
+public class JumpComponent : MonoBehaviour
 {
     Rigidbody2D rb;
     public bool canJump = false;
@@ -11,12 +11,6 @@ public class JumpComponet : MonoBehaviour
     private void Awake()
     {
         rb = GetComponentInParent<Rigidbody2D>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void Jump()
