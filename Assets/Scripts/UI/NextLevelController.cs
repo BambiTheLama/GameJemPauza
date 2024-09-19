@@ -1,14 +1,16 @@
+
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
 public class NextLevelController : MonoBehaviour
 {
+    public GameObject nextLevelUI = null;
     public TMP_Text levelText;
     public TMP_Text timeText;
 
-    private int currentLevel;
-    private float completionTime;
+    private int currentLevel = 0;
+    private float completionTime = 0.0f;
 
     void Start()
     {
@@ -21,12 +23,14 @@ public class NextLevelController : MonoBehaviour
 
     void SetLevelText()
     {
-        levelText.text = "Level " + currentLevel.ToString();
+        if (levelText)
+            levelText.text = "Level " + currentLevel.ToString();
     }
 
     void SetTimeText()
     {
-        timeText.text = completionTime.ToString("F2");
+        if (timeText)
+            timeText.text = completionTime.ToString("F2");
     }
 
     public void GoToMainMenu()
@@ -53,5 +57,10 @@ public class NextLevelController : MonoBehaviour
         {
             Debug.LogError("Poziom " + nextSceneName + " nie istnieje!");
         }
+    }
+    public void setVisible(bool visible)
+    {
+        if (nextLevelUI)
+            nextLevelUI.SetActive(visible);
     }
 }

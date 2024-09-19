@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Interactive
   - Floor
+  - Pause
+  - NextLevel
   layers:
   - Default
   - TransparentFX

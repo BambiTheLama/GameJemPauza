@@ -8,5 +8,32 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/_Scenes/UI.unity
+    guid: 396730b2bbe5cfd48be8a065c8994c3c
+  - enabled: 1
+    path: Assets/_Scenes/Levels/Level_1.unity
+    guid: ec9d57d94d474e646a08b5f3e51f26ac
+  - enabled: 1
+    path: Assets/_Scenes/Levels/Level_2.unity
+    guid: ff947ba5c1e68ff41bd68eeaf3376681
+  - enabled: 1
+    path: Assets/_Scenes/Levels/Level_3.unity
+    guid: e719d6a3d0a711044b00aa2c8b9801d9
+  - enabled: 1
+    path: Assets/_Scenes/Levels/Level_4.unity
+    guid: 1b20c7c973677ff49ab84e8be90e4a55
+  - enabled: 1
+    path: Assets/_Scenes/Levels/Level_5.unity
+    guid: b23cd690e687d764eb0688e797b27eb6
+  - enabled: 1
+    path: Assets/_Scenes/Levels/Level_6.unity
+    guid: 3e89bdab4cdcb5644a41c4555539b2a2
+  - enabled: 1
+    path: Assets/_Scenes/Levels/Level_7.unity
+    guid: 2fd2d16ce00b20a409203ca053fc27e1
+  - enabled: 1
+    path: Assets/_Scenes/Levels/Level_8.unity
+    guid: 5a8d084d1f1982447bf2c188d099fe04
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: fab2ebf6f1533364196c84473057e9ab, type: 2}
