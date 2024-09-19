@@ -56,6 +56,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5634884563551354169, guid: 86d6e35e9b3f57b48abe441559fea3ae, type: 3}
+      propertyPath: stopTimer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634884563551354169, guid: 86d6e35e9b3f57b48abe441559fea3ae, type: 3}
+      propertyPath: stopTimerMax
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8433364083608581175, guid: 86d6e35e9b3f57b48abe441559fea3ae, type: 3}
       propertyPath: m_Sprite
       value: 

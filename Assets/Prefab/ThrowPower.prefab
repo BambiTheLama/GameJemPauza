@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5737620423740870081}
   - component: {fileID: 6700132133659306479}
   m_Layer: 8
-  m_Name: Interactive
+  m_Name: ThrowPower
   m_TagString: Interactive
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
