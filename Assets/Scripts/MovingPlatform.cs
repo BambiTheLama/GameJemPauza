@@ -15,7 +15,10 @@ public class MovingPlatform : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody2D>();
     }
-
+    private void Start()
+    {
+        timer = timerMax;
+    }
     void Update()
     {
         if (!isMoving)
