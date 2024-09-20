@@ -6,6 +6,9 @@ public class MainMenuController : MonoBehaviour
 
     public void PlayGame()
     {
+        PlayerPrefs.SetInt("CurrentLevel", 0);
+        PlayerPrefs.SetFloat("CompletionTime", 0f);
+        PlayerPrefs.Save();
         SceneManager.LoadScene("Level_0");
     }
 

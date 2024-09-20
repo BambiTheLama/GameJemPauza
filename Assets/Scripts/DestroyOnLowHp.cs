@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class DestroyOnLowHp : MonoBehaviour, DieTriggerI
 {
-    PauseController controller;
+    LoseController controller;
     private void Start()
     {
-        controller = FindAnyObjectByType<PauseController>();
+        controller = FindAnyObjectByType<LoseController>();
     }
     public void OnDie()
     {
         Destroy(gameObject);
         if (controller)
-            controller.PauseGame();
+            controller.SetVisible();
+        AudioManager audioManager = FindObjectOfType<AudioManager>();
+
+        if (audioManager != null)
+        {
+            audioManager.PlayFX(audioManager.lose);
+        }
     }
 
 }

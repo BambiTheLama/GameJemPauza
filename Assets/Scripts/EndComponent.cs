@@ -27,6 +27,7 @@ public class EndComponent : MonoBehaviour
         Debug.Log("Wygra³eœ: " + level + " Czas: " + (int)(timer / 60) + ":" + ((int)timer % 60));
         PlayerPrefs.SetInt("CurrentLevel", level);
         PlayerPrefs.SetFloat("CompletionTime", timer);
+        PlayerPrefs.Save();
         AudioManager audioManager = FindObjectOfType<AudioManager>();
 
         if (audioManager != null)

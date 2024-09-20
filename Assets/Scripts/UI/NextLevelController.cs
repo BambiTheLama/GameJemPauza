@@ -14,8 +14,23 @@ public class NextLevelController : MonoBehaviour
 
     void Start()
     {
-        currentLevel = PlayerPrefs.GetInt("CurrentLevel", 1);
-        completionTime = PlayerPrefs.GetFloat("CompletionTime", 0f);
+        if (!PlayerPrefs.HasKey("CurrentLevel"))
+        {
+            currentLevel = 1;
+        }
+        else
+        {
+            currentLevel = PlayerPrefs.GetInt("CurrentLevel");
+        }
+
+        if (!PlayerPrefs.HasKey("CompletionTime"))
+        {
+            completionTime = 0f;
+        }
+        else
+        {
+            completionTime = PlayerPrefs.GetFloat("CompletionTime");
+        }
 
         SetLevelText();
         SetTimeText();
