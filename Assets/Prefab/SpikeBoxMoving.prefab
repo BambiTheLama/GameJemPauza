@@ -111,7 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   start: {fileID: 5022426390057221624}
   end: {fileID: 2680400503867411806}
-  moveingObj: {fileID: 6455570164451901817}
+  movingObj: {fileID: 6455570164451901817}
   timer: 2
   moveTimer: 0
 --- !u!1 &6455570164451901817

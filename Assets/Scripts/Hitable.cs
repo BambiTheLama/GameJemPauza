@@ -29,8 +29,13 @@ public class Hitable : MonoBehaviour
             return;
         this.invicibleFrames = invicibleFrames;
         hp -= damage;
-        if (hp <= 0.0f && dieTriggerI != null)
-            dieTriggerI.OnDie();
+        if (hp <= 0.0f)
+        {
+            if (dieTriggerI != null)
+                dieTriggerI.OnDie();
+            else
+                Destroy(gameObject);
+        }
         if (rb)
         {
             rb.velocity = Vector2.zero;
