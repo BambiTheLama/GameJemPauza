@@ -29,7 +29,7 @@ public class JumpComponent : MonoBehaviour
             canDoubleJump = false;
 
     }
-    public void resetJump()
+    public void ResetJump()
     {
         canJump = true;
         canDoubleJump = true;
@@ -40,12 +40,12 @@ public class JumpComponent : MonoBehaviour
             return "Jump";
         if (canDoubleJump)
             return "DoubleJump";
-        return "";
+        return "Idle";
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Floor"))
-            resetJump();
+            ResetJump();
     }
     private void OnTriggerExit2D(Collider2D collision)
     {

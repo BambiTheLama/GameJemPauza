@@ -22,9 +22,15 @@ public class EndComponent : MonoBehaviour
         if (!player)
             return;
         Debug.Log("Wygra³eœ");
+        AudioManager audioManager = FindObjectOfType<AudioManager>();
+
+        if (audioManager != null)
+        {
+            audioManager.PlayFX(audioManager.win);
+        }
         PlayerPrefs.SetInt("CurrentLevel", level);
         PlayerPrefs.SetFloat("CompletionTime", timer);
-            nextLevel.setVisible(true);
+        nextLevel.setVisible(true);
 
     }
 }

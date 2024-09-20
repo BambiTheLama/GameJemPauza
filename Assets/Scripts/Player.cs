@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     InputAction jumpInput;
 
     public float speed = 5.0f;
-    JumpComponent jumpComponet;
+    JumpComponent jumpComponent;
     Vector2 throwDir = Vector2.zero;
     bool freezeTime = false;
     InteractiveData interactiveData;
@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
         mainCamera = Camera.main;
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        jumpComponet = GetComponentInChildren<JumpComponent>();
+        jumpComponent = GetComponentInChildren<JumpComponent>();
     }
 
     void Start()
@@ -87,10 +87,10 @@ public class Player : MonoBehaviour
     {
         if (!jumpInput.WasPressedThisFrame())
             return;
-        if (!jumpComponet)
+        if (!jumpComponent)
             return;
-        animator.SetBool(jumpComponet.GetJumpType(), true);
-        jumpComponet.Jump();
+        animator.SetBool(jumpComponent.GetJumpType(), true);
+        jumpComponent.Jump();
     }
 
     void HandleInteractInput()
