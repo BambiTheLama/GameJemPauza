@@ -9,9 +9,11 @@ public class MainMenuController : MonoBehaviour
         SceneManager.LoadScene("Level_1");
     }
 
-    public void OpenOptions()
+    public void Continue()
     {
-        Debug.Log("Opcje zosta³y otwarte.");
+        //TODO
+        //SceneManager.LoadScene("Ostatnia scena");
+
     }
 
     public void ExitGame()
