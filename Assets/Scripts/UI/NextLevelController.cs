@@ -22,17 +22,16 @@ public class NextLevelController : MonoBehaviour
         {
             currentLevel = PlayerPrefs.GetInt("CurrentLevel");
         }
+        completionTime = EndComponent.timer;
 
-        if (!PlayerPrefs.HasKey("CompletionTime"))
-        {
-            completionTime = 0f;
-        }
-        else
-        {
-            completionTime = PlayerPrefs.GetFloat("CompletionTime");
-        }
 
         SetLevelText();
+        SetTimeText();
+    }
+
+    private void Update()
+    {
+        completionTime = EndComponent.timer;
         SetTimeText();
     }
 

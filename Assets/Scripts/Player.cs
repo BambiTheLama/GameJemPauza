@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     SpriteRenderer spriteRenderer = null;
     public WallJumpTrigger leftWallTrigger;
     public WallJumpTrigger rightWallTrigger;
+    bool canMove = true;
 
     InputAction moveInput;
     InputAction interactInput;
@@ -53,6 +54,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (!canMove)
+            return;
         Move();
         HandleJump();
         HandleInteractInput();
@@ -261,6 +264,11 @@ public class Player : MonoBehaviour
        
         Time.timeScale = 0.0f;
         freezeTime = true;
+    }
+
+    public void StopMove()
+    {
+        canMove = false;
     }
 
 }
