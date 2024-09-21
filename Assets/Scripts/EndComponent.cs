@@ -28,7 +28,6 @@ public class EndComponent : MonoBehaviour
         if (!player)
             return;
         player.StopMove();
-        Debug.Log("Wygra³eœ: " + level + " Czas: " + (int)(timer / 60) + ":" + ((int)timer % 60));
         PlayerPrefs.SetInt("CurrentLevel", level);
         PlayerPrefs.SetFloat("CompletionTime", timer);
         PlayerPrefs.Save();
