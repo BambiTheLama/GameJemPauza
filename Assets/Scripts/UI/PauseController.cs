@@ -47,12 +47,6 @@ public class PauseController : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        //Zerowanie czasu czy coœ
-    }
-
-    public void OpenOptions()
-    {
-        Debug.Log("Otwieram opcje.");
     }
 
     public void GoToMainMenu()

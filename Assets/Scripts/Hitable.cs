@@ -40,7 +40,6 @@ public class Hitable : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
             rb.angularVelocity = 0;
-            Debug.Log(dir);
             rb.AddForce(dir * knockbackPower, ForceMode2D.Impulse);
         }
         
