@@ -8,6 +8,8 @@ public class JumpComponent : MonoBehaviour
     public bool canJump = false;
     public bool canDoubleJump = false;
     public float jumpForce = 3.0f;
+    public bool granded = false;
+    public AudioSource jumpSound = null;
     private void Awake()
     {
         rb = GetComponentInParent<Rigidbody2D>();
@@ -19,6 +21,8 @@ public class JumpComponent : MonoBehaviour
             return;
         if (!rb)
             return;
+        if (jumpSound)
+            jumpSound.Play();
 
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0;
@@ -45,12 +49,20 @@ public class JumpComponent : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Floor"))
+        {
+            granded = true;
             ResetJump();
+        }
+
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Floor"))
+        {
+            granded = false;
             canJump = false;
+        }
+
     }
 
 }

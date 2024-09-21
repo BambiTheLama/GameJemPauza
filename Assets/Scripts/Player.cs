@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     public WallJumpTrigger leftWallTrigger;
     public WallJumpTrigger rightWallTrigger;
     bool canMove = true;
+    public AudioSource moveSound = null;
 
     InputAction moveInput;
     InputAction interactInput;
@@ -69,6 +70,7 @@ public class Player : MonoBehaviour
 
     private void Move()
     {
+
         float moveX = 0.0f;
         if (moveInput != null)
             moveX = moveInput.ReadValue<float>();
@@ -78,10 +80,18 @@ public class Player : MonoBehaviour
 
             transform.position += new Vector3(moveX * speed * Time.deltaTime, 0, 0);
             animator.SetBool("Move", true);
+            if (moveSound && jumpComponent)
+                moveSound.mute = !jumpComponent.granded;
+            else if (moveSound)
+                moveSound.mute = false;
+            
+
         }
         else
         {
             animator.SetBool("Move", false);
+            if (moveSound)
+                moveSound.mute = true;
         }
 
     }
